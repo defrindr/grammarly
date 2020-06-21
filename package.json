@@ -1,0 +1,29 @@
+{
+  "name": "grammarly",
+  "version": "1.0.0",
+  "description": "check your grammar",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/defrindr/grammarly.git"
+  },
+  "keywords": [
+    "grammar",
+    "js",
+    "node",
+    "scraper"
+  ],
+  "author": "Defri Indra Mahardika",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/defrindr/grammarly/issues"
+  },
+  "homepage": "https://github.com/defrindr/grammarly#readme",
+  "dependencies": {
+    "request": "^2.88.2",
+    "request-promise": "^4.2.5"
+  }
+}
