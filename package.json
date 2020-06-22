@@ -1,6 +1,6 @@
 {
   "name": "@defrindr/grammarly",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Automate correction grammar",
   "main": "main.js",
   "scripts": {
@@ -16,8 +16,8 @@
     "node",
     "scraper"
   ],
-  "publishConfig": { 
-    "registry": "https://npm.pkg.github.com/" 
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/"
   },
   "author": "Defri Indra Mahardika",
   "license": "MIT",
