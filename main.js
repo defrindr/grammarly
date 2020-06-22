@@ -1,8 +1,7 @@
 const req = require('request-promise')
 
 const uri = "https://orthographe.reverso.net/RISpellerWS/RestSpeller.svc/v1/CheckSpellingAsXml/language=eng?outputFormat=json&doReplacements=false&interfLang=en&dictionary=both&spellOrigin=interactive&includeSpellCheckUnits=true&includeExtraInfo=true&isStandaloneSpeller=true";
-
-let headers = {
+const headers = {
     "created": "01/01/0001 00:00:00",
     "accept": "application/json, text/javascript, */*; q=0.01",
     "accept-encoding": "gzip, deflate, br",
@@ -15,57 +14,67 @@ let headers = {
     "username": "OnlineSpellerWS",
 };
 
-
 const regErr = /\<error\s[\w].+?>\<[\/]?error\>/gim;
 const regDetailError = /<error id="\d+"\stype="(\w+)"\s\w+="([\w\s\,\?\&\^\%\#\@\!\+\=\/\\\.\>\<\(\)]+)".+?>(.+?)<\/error>/i;
 const regAlt = /<alternative\sid="0"\sdefinition="([\w\s\,\?\&\^\%\#\@\!\+\=\/\\\.\>\<\(\)]+?)"+?>([\w\s\,\?\&\^\%\#\@\!\+\=\/\\\.\>\<\(\)]+?)<\/alternative>/i;
 
+/**
+ * Checking grammar from
+ * https://www.reverso.net
+ * 
+ * @param {*} word 
+ */
+const grammarly = async (word) => {
+    return new Promise(async (resolve, reject) => {
+        /**
+         * declare vars
+         */
+        let source = {};
+        let result = {};
+        let wordCorrections = {};
+        let correctionWord = [];
+        let correctTemp = [];
+        let checkAlternative = [];
+        let definition = [];
 
+        try {
+            source = await req.post({
+                uri: uri,
+                headers: headers,
+                body: JSON.stringify(word)
+            }).then(resp => JSON.parse(resp)).catch(e => reject(e))
 
-const grammarly = async(body) => {
-    let source = await req.post({
-        uri: uri,
-        headers: headers,
-        body: JSON.stringify(body)
-    }).then(resp => JSON.parse(resp))
+            wordCorrections = source.Corrections.match(regErr);
 
-    let wordCorrections = source.Corrections.match(regErr);
+            for (let i = 0; i < wordCorrections.length; i++) {
+                correctTemp = wordCorrections[i].match(regDetailError).slice(1, 4);
 
-    arr = [];
+                checkAlternative = correctTemp[2].match(regAlt);
 
-    for (let i = 0; i < wordCorrections.length; i++) {
-        arr.push(wordCorrections[i].match(regDetailError).slice(1, 4));
-    }
+                if (checkAlternative != null) {
+                    definition = checkAlternative[1];
+                } else {
+                    definition = null;
+                }
 
-    for (let i = 0; i < wordCorrections.length; i++) {
-        let checker = arr[i][2].match(regAlt);
-        if (checker != null) {
-            arr[i][2] = checker.splice(1, 3);
-        } else {
-            arr[i][2] = null;
+                correctionWord.push({
+                    'type': correctTemp[0],
+                    'word': correctTemp[1],
+                    'definition': definition,
+                });
+            }
+
+            result = {
+                'original': source.OriginalText,
+                'correctText': source.AutoCorrectedText,
+                'correction': correctionWord
+            };
+
+            resolve(result);
+        } catch (e) {
+            reject(e);
         }
-    }
-
-    correctionWord = "";
-
-    for (let i = 0; i < arr.length; i++) {
-        let cnt = arr[i][0].length
-        if (cnt < 7) {
-            let spaceCnt = 7 - cnt;
-            let spacing = " ";
-            arr[i][0] += spacing.repeat(spaceCnt);
-        }
-        correctionWord += `[  ${arr[i][0]}  ]\t${arr[i][1]}`;
-        if (arr[i][2] != null) {
-            correctionWord += ` -> ${arr[i][2][0]}`
-        }
-        correctionWord += `\n`;
-    }
-
-    text = `Original : ${source.OriginalText}\nCorrection : ${source.AutoCorrectedText}\n===========\n${correctionWord}`;
-
-
-    return text;
+    })
 }
 
 module.exports = grammarly;

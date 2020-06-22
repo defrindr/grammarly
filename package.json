@@ -1,7 +1,7 @@
 {
   "name": "grammarly",
   "version": "1.0.0",
-  "description": "check your grammar",
+  "description": "Automate correction grammar",
   "main": "main.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -17,7 +17,7 @@
     "scraper"
   ],
   "author": "Defri Indra Mahardika",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/defrindr/grammarly/issues"
   },
@@ -25,5 +25,6 @@
   "dependencies": {
     "request": "^2.88.2",
     "request-promise": "^4.2.5"
-  }
+  },
+  "devDependencies": {}
 }
