@@ -41,6 +41,7 @@ Response :
 
 ## TODOs
 - [x] Change response to json
+- [ ] Add french grammar
 
 ## License
 This project under [MIT LICENSE](license.md)
