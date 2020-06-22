@@ -1,10 +1,17 @@
 # Gramarly
+
 Simple grammarly package.
+
+## Installation
+
+```
+npm install grammarly --save
+```
 
 ## Example
 
 ```javascript
-const grammarly = require('./main.js');
+const grammarly = require('grammarly');
 
 (async function() {
     let correction = await grammarly('i wont to be slep').catch(e => e);
