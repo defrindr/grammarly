@@ -1,6 +1,6 @@
 {
   "name": "grammarly",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Automate correction grammar",
   "main": "main.js",
   "scripts": {
