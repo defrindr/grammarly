@@ -19,7 +19,7 @@ const grammarly = require('grammarly');
 })();
 ```
 Response : 
-```json
+```javascript
 {
   original: '"i wont to be slep"',
   correctText: '"I want to be sleeping"',
