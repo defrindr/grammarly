@@ -15,7 +15,7 @@ const headers = {
 };
 
 const regErr = /\<error\s[\w].+?>\<[\/]?error\>/gim;
-const regDetailError = /<error id="\d+"\stype="(\w+)"\s\w+="([\w\s\,\?\&\^\%\#\@\!\+\=\/\\\.\>\<\(\)]+)".+?>(.+?)<\/error>/i;
+const regDetailError = /<error id="\d+"\stype="(\w+)"\s\w+="([\w\s\,\?\&\^\%\#\@\!\+\=\/\\\.\>\<\(\)\']+)".+?>(.+?)<\/error>/i;
 const regAlt = /<alternative\sid="0"\sdefinition="([\w\s\,\?\&\^\%\#\@\!\+\=\/\\\.\>\<\(\)]+?)"+?>([\w\s\,\?\&\^\%\#\@\!\+\=\/\\\.\>\<\(\)]+?)<\/alternative>/i;
 
 /**
@@ -45,17 +45,26 @@ const grammarly = async (word) => {
             }).then(resp => JSON.parse(resp)).catch(e => reject(e))
 
             wordCorrections = source.Corrections.match(regErr);
-
+            console.log(wordCorrections);
             for (let i = 0; i < wordCorrections.length; i++) {
-                correctTemp = wordCorrections[i].match(regDetailError).slice(1, 4);
+                correctTemp = wordCorrections[i].match(regDetailError);
+                console.log("=".repeat(20))
+                console.log(correctTemp)
+                console.log("=".repeat(20))
+                // .slice(1, 3);
+                if(correctTemp[2] != null){
+                    checkAlternative = correctTemp[2].match(regAlt);
 
-                checkAlternative = correctTemp[2].match(regAlt);
-
-                if (checkAlternative != null) {
-                    definition = checkAlternative[1];
-                } else {
+                    if (checkAlternative != null) {
+                        definition = checkAlternative[1];
+                    } else {
+                        definition = null;
+                    }
+                }else{
                     definition = null;
                 }
+                
+
 
                 correctionWord.push({
                     'type': correctTemp[0],
