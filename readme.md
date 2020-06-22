@@ -5,6 +5,10 @@ Simple grammarly package.
 ## Installation
 
 ```
+npm install @defrindr/grammarly --save
+```
+Or
+```
 npm install grammarly --save
 ```
 
