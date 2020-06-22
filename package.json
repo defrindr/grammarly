@@ -1,5 +1,5 @@
 {
-  "name": "@defrindr/grammarly",
+  "name": "grammarly",
   "version": "1.0.2",
   "description": "Automate correction grammar",
   "main": "main.js",
@@ -17,7 +17,7 @@
     "scraper"
   ],
   "publishConfig": {
-    "registry": "https://npm.pkg.github.com/"
+    "registry": "https://npm.pkg.github.com/@defrindr"
   },
   "author": "Defri Indra Mahardika",
   "license": "MIT",
@@ -26,6 +26,7 @@
   },
   "homepage": "https://github.com/defrindr/grammarly#readme",
   "dependencies": {
+    "@defrindr/brainly-scraper": "^1.0.0",
     "request": "^2.88.2",
     "request-promise": "^4.2.5"
   },
