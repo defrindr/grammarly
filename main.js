@@ -45,21 +45,17 @@ const grammarly = async (word) => {
             }).then(resp => JSON.parse(resp)).catch(e => reject(e))
 
             wordCorrections = source.Corrections.match(regErr);
-            for (let i = 0; i < wordCorrections.length; i++) {
-                correctTemp = wordCorrections[i].match(regDetailError);
-                if(correctTemp[2] != null){
-                    checkAlternative = correctTemp[2].match(regAlt);
 
-                    if (checkAlternative != null) {
-                        definition = checkAlternative[1];
-                    } else {
-                        definition = null;
-                    }
-                }else{
+            for (let i = 0; i < wordCorrections.length; i++) {
+                correctTemp = wordCorrections[i].match(regDetailError).slice(1, 4);
+
+                checkAlternative = correctTemp[2].match(regAlt);
+
+                if (checkAlternative != null) {
+                    definition = checkAlternative[1];
+                } else {
                     definition = null;
                 }
-                
-
 
                 correctionWord.push({
                     'type': correctTemp[0],
