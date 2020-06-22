@@ -45,13 +45,8 @@ const grammarly = async (word) => {
             }).then(resp => JSON.parse(resp)).catch(e => reject(e))
 
             wordCorrections = source.Corrections.match(regErr);
-            console.log(wordCorrections);
             for (let i = 0; i < wordCorrections.length; i++) {
                 correctTemp = wordCorrections[i].match(regDetailError);
-                console.log("=".repeat(20))
-                console.log(correctTemp)
-                console.log("=".repeat(20))
-                // .slice(1, 3);
                 if(correctTemp[2] != null){
                     checkAlternative = correctTemp[2].match(regAlt);
 
